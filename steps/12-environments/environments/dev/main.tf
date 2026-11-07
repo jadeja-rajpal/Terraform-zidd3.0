@@ -1,0 +1,4 @@
+module "app_bucket" {
+  source      = "../../modules/secure-bucket"
+  bucket_name = "${var.prefix}-dev-app-tf-demo"
+}

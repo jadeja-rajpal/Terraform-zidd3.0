@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Slide 6</title><link rel="stylesheet" href="style.css"></head><body><div class="slide"><header class="top"><div class="logo"><svg width="44" height="44" viewBox="0 0 44 44"><rect x="0" y="0" width="20" height="20" rx="5" fill="#7F77DD"/><rect x="24" y="0" width="20" height="20" rx="5" fill="#AFA9EC"/><rect x="12" y="24" width="20" height="20" rx="5" fill="#1D9E75"/></svg><span>Terraform in One Shot</span></div><div class="handle"><svg width="38" height="38" viewBox="0 0 38 38" fill="none" stroke="#4a4560" stroke-width="3"><rect x="3" y="3" width="32" height="32" rx="10"/><circle cx="19" cy="19" r="7.5"/><circle cx="28" cy="10" r="1.6" fill="#4a4560" stroke="none"/></svg><span>@devops_jadeja</span></div></header><h1>variable, locals, output</h1><div class="win" style="left:480px;top:235px;width:930px;height:690px"><div class="bar">variables.tf + main.tf + outputs.tf</div><pre style="font-size:28px;line-height:40px"><span class="kw" data-k="v">variable</span> <span class="str">"students"</span> {
+  <span class="attr">type</span>    = list(string)
+  <span class="attr">default</span> = [<span class="str">"alice"</span>, <span class="str">"bob"</span>, <span class="str">"carol"</span>]
+}
+<span class="kw" data-k="l">locals</span> {
+  <span class="attr">greeting</span> = <span class="str">"Hello"</span>
+}
+<span class="kw">resource</span> <span class="str">"local_file"</span> <span class="str">"student"</span> {
+  <span class="attr">for_each</span> = toset(<span class="ref" data-k="vs">var.students</span>)
+  <span class="attr">filename</span> = <span class="str">"${each.key}.txt"</span>
+  <span class="attr">content</span>  = <span class="x" data-k="lr"><span class="str">"${</span><span class="ref">local.greeting</span><span class="str">}, ${each.key}!\n"</span></span>
+}
+<span class="kw" data-k="o">output</span> <span class="str">"files_created"</span> {
+  <span class="attr">value</span> = keys(<span class="ref" data-k="or">local_file.student</span>)
+}</pre></div><div class="pill purple" style="left:40px;top:285px;width:400px" data-for="v" data-from="right" data-to="left"><b>variable</b><i>an input from outside</i></div><div class="pill teal" style="left:40px;top:445px;width:400px" data-for="l" data-from="right" data-to="left"><b>locals</b><i>calculated inside</i></div><div class="pill coral" style="left:40px;top:765px;width:400px" data-for="o" data-from="right" data-to="left"><b>output</b><i>printed after apply</i></div><div class="pill purple" style="left:1440px;top:560px;width:440px" data-for="vs" data-from="left" data-to="right"><b>var.students</b><i>read an input with var.</i></div><div class="pill teal" style="left:1440px;top:700px;width:440px" data-for="lr" data-from="left" data-to="right"><b>local.greeting</b><i>read a local with local. (singular)</i></div><div class="pill coral" style="left:1440px;top:820px;width:440px" data-for="or" data-from="left" data-to="right"><b>type.nickname</b><i>refer to another resource</i></div><footer><span>DevOps Jadeja</span><span>06 / 11</span></footer></div><script src="lcode.js"></script></body></html>
